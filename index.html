@@ -27,7 +27,7 @@
       <h1>Capture your gameplay. <span class="grad">Edit it in one place.</span></h1>
       <p>Lumove Cut is a desktop video editor with built-in screen, game, webcam, and microphone capture. Record everything at once, and it lands in your project ready to cut.</p>
       <div class="actions">
-        <a class="btn primary" href="https://github.com/Swickster153/lumove-cut/releases/latest">Download for Windows <small>free</small></a>
+        <a class="btn primary" data-download href="https://github.com/Swickster153/lumove-cut/releases/latest">Download for Windows <small data-download-version>free</small></a>
         <a class="btn" href="#pricing">Become a Supporter</a>
       </div>
       <p class="meta">Windows 10 / 11 (64-bit) · Alpha — expect rough edges</p>
@@ -63,7 +63,7 @@
               <li>AI captions &amp; AI cutout</li>
               <li>Exports up to 720p</li>
             </ul>
-            <a class="btn" href="https://github.com/Swickster153/lumove-cut/releases/latest">Download</a>
+            <a class="btn" data-download href="https://github.com/Swickster153/lumove-cut/releases/latest">Download</a>
           </div>
           <div class="plan featured">
             <h3>Alpha Supporter</h3>
@@ -111,5 +111,20 @@
       </nav>
     </div>
   </footer>
+  <script>
+    // Point Download buttons straight at the latest installer. The file name
+    // carries the version, so ask GitHub which asset is current; without JS or
+    // if the API is unreachable, the links stay on the latest release page.
+    fetch("https://api.github.com/repos/Swickster153/lumove-cut/releases/latest", { headers: { Accept: "application/vnd.github+json" } })
+      .then((response) => response.ok ? response.json() : Promise.reject(response.status))
+      .then((release) => {
+        const installer = release.assets.find((asset) => /_x64-setup\.exe$/i.test(asset.name));
+        if (!installer) return;
+        document.querySelectorAll("[data-download]").forEach((link) => { link.href = installer.browser_download_url; });
+        const version = release.tag_name.replace(/^v/, "");
+        document.querySelectorAll("[data-download-version]").forEach((label) => { label.textContent = `free · v${version}`; });
+      })
+      .catch(() => {});
+  </script>
 </body>
 </html>
