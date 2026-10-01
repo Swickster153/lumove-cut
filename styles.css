@@ -38,6 +38,7 @@ img { max-width: 100%; }
 .btn:hover { border-color: #3a3e49; background: #24262e; }
 .btn.primary { border-color: transparent; background: var(--accent); color: #fff; }
 .btn.primary:hover { background: var(--accent-hover); }
+.btn.is-disabled { cursor: default; opacity: .6; pointer-events: none; }
 .btn small { font-weight: 500; opacity: .75; }
 
 /* Hero */
